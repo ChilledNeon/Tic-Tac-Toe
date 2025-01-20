@@ -280,6 +280,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("It's a Tie"); // If nothing, then it is a tie
 
             console.log("The Score is "+ UserWin + " - "+ CompWin); // Print the updated score
+            
+            wonRound = true;
 
             await sleep(2000); // Add in a sleep function to pause and let the user see the board before resetting the game
 
@@ -294,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function resetGame(){
       cells.forEach(cell => {
         cell.textContent = " "; // Since the game is based on the buttons being " " by defult, need to reset it to that
-        cell.style.backgroundColor = ""; // Optional styling reset
+        cell.style.backgroundColor = ""; // Styling reset
       });
       PossibleSpots = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
       UserPicks = [];
