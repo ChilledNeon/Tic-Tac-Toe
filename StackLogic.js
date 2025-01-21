@@ -107,9 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       else if(StackDifficulty == "Hard"){
         Hard();
       }
-      else{
-        console.log("Error in Play if statement");
-      }
     }
 
     function Easy(){
@@ -208,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     
       // Add the computer's choice to the board
-      CompPicks.push(choice);
       AddCompToBoard(choice);
     }
 
@@ -252,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let shouldBlock = Math.random() * 100 < 95; // Medium has a 80% chance of blocking
 
-      if(PossibleSpots.length == 26){
+      if(PossibleSpots.length === 26){
         // Math to choose the opposite spot of the user
         let userchoice = UserPicks[0];
         let z = userchoice - 5;
@@ -264,12 +260,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Checking to see if the computer can win
       choice = Win();
 
-      if (choice === " "){
+      if (choice == " "){
         if(UserPicks.length > 1 && shouldBlock){
           choice = Block();
           console.log("Block Choice: " + choice);
         }
-        else{  
+        if(choice == " "){  
+          console.log("Hello");
           let randomIndex = 0;
   
           while(choice == " "){
@@ -374,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       }
-      return " "
+      return " ";
     }
 
     // The Function to add the computers spot to the board. The User already has one of these above
@@ -421,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         holdList = CompPicks;
       }
 
+      console.log(holdList);
       // Check each winning combination
       for (const innerArray of WinningMoves) {
         let count = 0;
