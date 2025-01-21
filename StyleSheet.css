@@ -1,0 +1,27 @@
+body {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height for vertical centering */
+    margin: 8; /* Remove default margins */
+}
+
+.board-screen {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
+    gap: 10px 15px;
+    width: 300px; /* Adjust width as needed */
+    margin: auto; /* Center the grid horizontally */
+  }
+  
+  .cell {
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    width: 80px; /* Adjust button size as needed */
+    height: 80px;
+    background-color: white; /* Button color */
+    border: 5px solid #000; /* Border for buttons */
+    font-size: 20px; /* Adjust font size */
+    cursor: pointer;
+    margin: 8px;
+  }
