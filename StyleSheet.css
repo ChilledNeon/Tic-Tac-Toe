@@ -2,7 +2,7 @@ body {
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    height: 100vh; /* Full viewport height for vertical centering */
+    height: 85vh; /* Full viewport height for vertical centering */
     margin: 8; /* Remove default margins */
 }
 
@@ -14,14 +14,145 @@ body {
     margin: auto; /* Center the grid horizontally */
   }
   
-  .cell {
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    width: 80px; /* Adjust button size as needed */
-    height: 80px;
-    background-color: white; /* Button color */
-    border: 5px solid #000; /* Border for buttons */
-    font-size: 20px; /* Adjust font size */
-    cursor: pointer;
-    margin: 8px;
-  }
+.cell {
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  width: 80px; /* Adjust button size as needed */
+  height: 80px;
+  background-color: white; /* Button color */
+  border: 5px solid #000; /* Border for buttons */
+  font-size: 20px; /* Adjust font size */
+  cursor: pointer;
+  margin: 8px;
+}
+
+.messages{
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/* Basic styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* Settings icon */
+.settings-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Initially hidden */
+  width: 300px;
+  height: 100%;
+  background-color: #333;
+  color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 5px; /* Distance from the top of the sidebar */
+  left: 5px; /* Distance from the left of the sidebar */
+  font-size: 24px; /* Increase size for visibility */
+  cursor: pointer;
+  color: #fff;
+  z-index: 1001; /* Ensure it appears above other elements inside the sidebar */
+  background: none;
+  border: none;
+}
+
+/* Styles for settings container */
+.setting {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Labels for sliders */
+.setting label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* Slider styles */
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: #555;
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]:hover {
+  background: #777;
+}
+
+.submit-btn-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: darkgreen;
+}
+
+.score-display {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.score-display p {
+  display: inline-block;
+}
