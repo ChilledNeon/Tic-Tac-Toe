@@ -10,30 +10,49 @@
     <div class = "title-screen" id = "title-screen">
         <h1 class = "game-title"> Tic Tac Toe </h1>
 
-        <button class = "start-btn""> Start Game </button>
-
-        <p class = "instructions"> Click "Start Game" to select the game mode </p>
-    </div>
-
-    <div class = "selection-screen" id = "selection-screen" style = "display: none;">
-        <h2> Select your game mode </h2>
-        <button class = "mode-btn" data-mode = "Classic"> Classic </button>
-        <button class = "mode-btn" data-mode = "Stack"> Stack </button>
-        <button class = "mode-btn" data-mode = "Vanish"> Vanish </button>
-    </div>
-
-    <div class = "difficulty-screen" id = "difficulty-screen" style = "display: none;">
-        <h2> Select the difficulty </h2>
-        <button class = "dif-btn" data-mode = "Easy"> Easy </button>
-        <button class = "dif-btn" data-mode = "Medium"> Medium </button>
-        <button class = "dif-btn" data-mode = "Hard"> Hard </button>
-    </div>
-
-    <div class = "round-screen" id = "round-screen" style="display:none;">
-        <h2> First to ____ wins </h2>
-        <button class = "rnd-btn" data-mode = "1"> 1 </button>
-        <button class = "rnd-btn" data-mode = "2"> 2 </button>
-        <button class = "rnd-btn" data-mode = "3"> 3 </button>
+        <div class="settings-icon" id="settingsIcon">
+            ⚙️
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="close-btn" id="closeBtn">×</div>
+            <h2>Settings</h2>
+            <div class = "Settings">
+              <p> Game Mode </p>
+              <input type = "radio" id = "Classic" name = "mode" value = "Classic" checked>
+              <label for = "Classic">Classic</label>
+    
+              <input type = "radio" id = "Stack" name = "mode" value = "Stack">
+              <label for = "Stack">Stack</label>
+    
+              <input type = "radio" id = "Vanish" name = "mode" value = "Vanish">
+              <label for = "Vanish">Vanish</label>
+             </div>
+            <div class="settings">
+              <p>Difficulty</p>
+              <input type="radio" id="Easy" name="difficulty" value="Easy" checked>
+              <label for="Easy">Easy</label>
+      
+              <input type="radio" id="Medium" name="difficulty" value="Medium">
+              <label for="Medium">Medium</label>
+      
+              <input type="radio" id="Hard" name="difficulty" value="Hard">
+              <label for="Hard">Hard</label>
+            </div>
+            <div class="settings">
+              <p># of games</p>
+              <input type="radio" id="1" name="games" value="1" checked>
+              <label for = "1">One</label>
+    
+              <input type="radio" id = "2" name="games" value="2">
+              <label for="2">Two</label>
+    
+              <input type="radio" id="3" name="games" value="3">
+              <label for="3">Three</label>
+            </div>
+          </div>
+        <div class="submit-btn-container">
+          <button class="submit-btn" id="submitBtn">Play</button>
+        </div>    
     </div>
 
     <div class = "board-screen" id = "board-screen" style = "display: none;">
@@ -47,10 +66,13 @@
         <button class="cell" data-id = "8"> </button>
         <button class="cell" data-id = "9"> </button>
 
-        <!--
-        <p id = "selected-mode"> Mode: None </p>
-        <p id = "selected-difficulty"> Difficulty: None </p>
-        -->
+        <div class="score-display">
+          <p> <span id="scoreX">0</span> - <span id="scoreO">0</span></p>
+        </div>
+
+        <div class = "messages">
+          <p><span id = "message"></span></p>
+        </div>
     </div>
 
     <script type="module" src="Board.js"></script>
