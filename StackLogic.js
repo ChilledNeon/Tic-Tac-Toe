@@ -30,9 +30,11 @@ export function handleStackSettings(difficulty, rounds) {
     console.log(`Game mode: Stack, Difficulty: ${difficulty}, # of Rounds: ${rounds}`);
     StackDifficulty = difficulty;
     RoundCount = rounds;
+
+    StartStack();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function StartStack(){
     const cells = document.querySelectorAll(".cell");
 
     // Calling the Start game function
@@ -63,6 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.removeEventListener("click", handleUserClick);
       });
     }
+
+    // Function to pause the screen when a win, a tie, or a loss is recorded
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
   
     // Actual fucntion that handles the users input
     function handleUserClick() {
@@ -86,14 +93,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
         if (!wonRound) {
           deactivateUserClickListener(); // Disable clicks during the computer's turn
-          Play(); // Have the user play
-        }
-        else {
-          console.log("Invalid spot. Please choose another.");
+          setTimeout(() => {
+            Play(); // Have the Computer play
+          }, 500);
         }
       }
       else{
-        console.log("Doesn't work");
+        document.getElementById('message').textContent = "Spot not available, Please select again";
+        setTimeout(function() {
+          document.getElementById('message').textContent = "";
+      }, 1500);
       }
     }
 
@@ -165,9 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return compNum.toString();
         
       }
-      else{
-        console.log("Error in First Move");
-      }
     }
 
     function PlayMedium(){
@@ -177,26 +183,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if(UserPicks.length > 1 && shouldBlock){
         choice = Block();
-        console.log("Block Choice: " + choice);
       }
-      if (choice === " "){
+      if (choice == "0" || choice == " "){
         let randomIndex = 0;
 
-        while(choice == " "){
+        while(choice == " " || choice == "0"){
           randomIndex = Math.floor(Math.random() * PossibleSpots.length);
           choice = PossibleSpots[randomIndex];
           if(CompPicks.includes(choice)){
             choice = " ";
           }
         }
-        console.log("Random Choice: " + choice);
       }
       return choice;
     }
 
     function Hard() {
       let choice = " ";
-      console.log(PossibleSpots.length);
       if(PossibleSpots.length % 2 == 1){
         choice = compTurnHard();
       }
@@ -209,10 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function compTurnHard(){
-      console.log("Comp");
       // Choose a random winning move row
       let choices = WinningMoves[ranNum];
-      console.log(choices);
     
       let choice = " ";
     
@@ -238,12 +239,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       }
-      console.log(choice);
       return choice;
     }
 
     function userTurnHard(){
-      console.log("User");
       let choice = " ";
 
       let shouldBlock = Math.random() * 100 < 95; // Medium has a 80% chance of blocking
@@ -263,20 +262,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (choice == " "){
         if(UserPicks.length > 1 && shouldBlock){
           choice = Block();
-          console.log("Block Choice: " + choice);
         }
-        if(choice == " "){  
-          console.log("Hello");
+        if(choice == " " || choice == "0"){
           let randomIndex = 0;
   
-          while(choice == " "){
+          while(choice == " " || choice == "0"){
             randomIndex = Math.floor(Math.random() * PossibleSpots.length);
             choice = PossibleSpots[randomIndex];
             if(CompPicks.includes(choice)){
               choice = " ";
             }
           }
-          console.log("Random Choice: " + choice);
         }
       }
       return choice;
@@ -306,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
         }
       }
+    
       // If the user is about to win (2 spots filled), block it
       //  At this point, I know there needs to be a block, So I am checking to see if the block spot is available
       //   as well as seeing which spot lines up best with the computers existing moves
@@ -321,9 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Push the first option to the array and see if it is a good move to make relitive to the other moves made by the computer
             CompPicks.push(count1);
             for(const element of innerArray){
-              // console.log(element);
               if (CompPicks.includes(element)) {
-                // Rename
                 compCount1++;
               }
             }
@@ -337,7 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
             CompPicks.push(count2);
             for(const element in innerArray){
               if (CompPicks.includes(element)) {
-                // Rename
                 compCount2++;
               }
             }
@@ -348,15 +342,13 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       }
-      else{
-        return " ";
-      }
+      return "0";
     }
 
-    // Function to allow the hard difficulty to win in possible
+    // Function to allow the hard difficulty to win if possible
     function Win(){
       for (const innerArray of WinningMoves) {
-        let count = 0; // Count the number of spots are in a winning combo 
+        let count = 0; // Count the number of spots that are in a winning combo 
         let emptySpot = -1 // Chacking to see what the empty spot might be
         for (const element of innerArray) {
           if (CompPicks.includes(element)) { // Going through each spot the computer picked to see if they together are winning moves
@@ -403,11 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Function to pause the screen when a win, a tie, or a loss is recorded
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     async function IsWinner(listNumber) {
       // This part, I'm sure, is not ideal, nor efficiant
       // Depending on the number sent from before, 0 or 1, will determine which list is checked
@@ -417,8 +404,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (listNumber == 1) {// If one was sent, the temperary list will be the computers list
         holdList = CompPicks;
       }
-
-      console.log(holdList);
       // Check each winning combination
       for (const innerArray of WinningMoves) {
         let count = 0;
@@ -428,16 +413,24 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           if (count === 3) { // We know there is a winning combo on the board
             if(holdList.sort().join(',') === UserPicks.sort().join(',')){ // If the temperary list is the User pick list, the user wins
-              console.log("You Win");
+              document.getElementById('message').textContent = "You Win!";
+              setTimeout(function() {
+                document.getElementById('message').textContent = "";
+              }, 1500);
               wonRound = true;
               UserWin++;
             }
             else if(holdList.sort().join(',') === CompPicks.sort().join(',')){ // If the temperary list is the computer pick list, the computer wins
-              console.log("You Lose");
+              document.getElementById('message').textContent = "You Lose!";
+              setTimeout(function() {
+                document.getElementById('message').textContent = "";
+              }, 1500);
               CompWin++;
             }
 
-            console.log("The Score is "+ UserWin + " - "+ CompWin); // Print the updated score
+            // Update the score on the board
+            document.getElementById('scoreX').textContent = UserWin;
+            document.getElementById('scoreO').textContent = CompWin;
 
             await sleep(2000); // Add in a sleep function to pause and let the user see the board before resetting the game
 
@@ -445,9 +438,14 @@ document.addEventListener("DOMContentLoaded", () => {
             
           }
           else if (PossibleSpots.length == 0){
-            console.log("It's a Tie"); // If nothing, then it is a tie
+            document.getElementById('message').textContent = "It's a tie";
+            setTimeout(function() {
+              document.getElementById('message').textContent = "";
+            }, 1500);// If nothing, then it is a tie
 
-            console.log("The Score is "+ UserWin + " - "+ CompWin); // Print the updated score
+            // Update the score on the board
+            document.getElementById('scoreX').textContent = UserWin;
+            document.getElementById('scoreO').textContent = CompWin;
             
             wonRound = true;
 
@@ -477,8 +475,12 @@ document.addEventListener("DOMContentLoaded", () => {
         StartGame(); // Then restart the game
       }
       else{
-        console.log("The game is over"); // If one of them is equal, then the game is over
+        document.getElementById('message').textContent = "The Game is Over!";
+        setTimeout(function() {
+          document.getElementById('message').textContent = "";
+        }, 2000);// If nothing, then it is a tie // If one of them is equal, then the game is over
+        
         hasWon = true; // Make true so neither the computer nor the user can make a move
       }
     }
-  });
+  };
