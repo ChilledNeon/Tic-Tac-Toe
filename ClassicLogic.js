@@ -31,11 +31,13 @@ export function handleClassicSettings(difficulty, rounds) {
     console.log(`Game mode: Classic, Difficulty: ${difficulty}, # of Rounds: ${rounds}`);
     ClassicDifficulty = difficulty;
     RoundCount = rounds;
+
+    StartClassic();
 }
 
 // The "main function"
 // It's an event listener that listens for a button being clicked by the user
-document.addEventListener("DOMContentLoaded", () => {
+function StartClassic(){
     const cells = document.querySelectorAll(".cell");
 
     // Calling the Start game function
@@ -87,10 +89,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
         if (!wonRound) {
           deactivateUserClickListener(); // Disable clicks during the computer's turn
-          Play(); // Have the user play
+          setTimeout(() => {
+            Play(); // Have the Computer play
+          }, 500);
         }
-      } else {
-        console.log("Invalid spot. Please choose another.");
+      } 
+      else {
+        document.getElementById('message').textContent = "Invalid Spot, Choose again";
+        setTimeout(function() {
+          document.getElementById('message').textContent = "";
+        }, 2000);
       }
     }
 
@@ -260,16 +268,25 @@ document.addEventListener("DOMContentLoaded", () => {
     
           if (count === 3) { // We know there is a winning combo on the board
             if(holdList.sort().join(',') === UserPicks.sort().join(',')){ // If the temperary list is the User pick list, the user wins
-              console.log("You Win");
+              document.getElementById('message').textContent = "You Win!";
+              setTimeout(function() {
+                document.getElementById('message').textContent = "";
+              }, 2000);
+
               wonRound = true;
               UserWin++;
             }
             else if(holdList.sort().join(',') === CompPicks.sort().join(',')){ // If the temperary list is the computer pick list, the computer wins
-              console.log("You Lose");
+              document.getElementById('message').textContent = "You Lose";
+              setTimeout(function() {
+                document.getElementById('message').textContent = "";
+              }, 2000);
+
               CompWin++;
             }
 
-            console.log("The Score is "+ UserWin + " - "+ CompWin); // Print the updated score
+            document.getElementById('scoreX').textContent = UserWin;
+            document.getElementById('scoreO').textContent = CompWin;
 
             await sleep(2000); // Add in a sleep function to pause and let the user see the board before resetting the game
 
@@ -277,9 +294,14 @@ document.addEventListener("DOMContentLoaded", () => {
             
           }
           else if (PossibleSpots.length == 0){
-            console.log("It's a Tie"); // If nothing, then it is a tie
+            document.getElementById('message').textContent = "It's a Tie";
+            setTimeout(function() {
+              document.getElementById('message').textContent = "";
+            }, 2000); // If nothing, then it is a tie
 
-            console.log("The Score is "+ UserWin + " - "+ CompWin); // Print the updated score
+            // Update the score on the board
+            document.getElementById('scoreX').textContent = UserWin;
+            document.getElementById('scoreO').textContent = CompWin;
             
             wonRound = true;
 
@@ -298,6 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.textContent = " "; // Since the game is based on the buttons being " " by defult, need to reset it to that
         cell.style.backgroundColor = ""; // Styling reset
       });
+
       PossibleSpots = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
       UserPicks = [];
       CompPicks = [];
@@ -307,8 +330,12 @@ document.addEventListener("DOMContentLoaded", () => {
         StartGame(); // Then restart the game
       }
       else{
-        console.log("The game is over"); // If one of them is equal, then the game is over
+        document.getElementById('message').textContent = "The Game is Over!";
+        setTimeout(function() {
+          document.getElementById('message').textContent = "";
+        }, 2000); // If one of them is equal, then the game is over
+
         hasWon = true; // Make true so neither the computer nor the user can make a move
       }
     }
-  });
+  };
